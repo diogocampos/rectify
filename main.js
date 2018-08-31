@@ -1,5 +1,7 @@
 window.onload = () => {
   const fileInput = document.getElementById('file-input')
+  let fileInfo = null
+
   const adjustButton = document.getElementById('adjust-button')
   const saveButton = document.getElementById('save-button')
 
@@ -26,6 +28,8 @@ window.onload = () => {
   })
 
   async function loadInputImage(imageFile) {
+    fileInfo = { name: imageFile.name, type: imageFile.type }
+
     inputCanvas.clear()
     outputCanvas.clear()
     adjustButton.hidden = true
@@ -34,12 +38,28 @@ window.onload = () => {
     await inputCanvas.loadImage(imageFile)
     adjustButton.hidden = false
   }
+
+  saveButton.addEventListener('click', () => {
+    saveButton.href = outputCanvas.canvas.toDataURL(fileInfo.type)
+    saveButton.download = adjusted(fileInfo.name)
+  })
+}
+
+function adjusted(fileName) {
+  const parts = fileName.split('.')
+  if (parts.length > 1) {
+    const name = parts.slice(0, -1).join('.')
+    const extension = parts[parts.length - 1]
+    return `${name}-ajustado.${extension}`
+  } else {
+    return `${fileName}-ajustado`
+  }
 }
 
 class Canvas {
   constructor(id) {
-    this._canvas = document.getElementById(id)
-    this._ctx = this._canvas.getContext('2d')
+    this.canvas = document.getElementById(id)
+    this.ctx = this.canvas.getContext('2d')
   }
 
   loadImage(imageFile) {
@@ -49,15 +69,15 @@ class Canvas {
       image.src = url
       image.onload = () => {
         URL.revokeObjectURL(url)
-        this._canvas.width = image.width
-        this._canvas.height = image.height
-        this._ctx.drawImage(image, 0, 0)
+        this.canvas.width = image.width
+        this.canvas.height = image.height
+        this.ctx.drawImage(image, 0, 0)
         resolve()
       }
     })
   }
 
   clear() {
-    this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height)
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
   }
 }
