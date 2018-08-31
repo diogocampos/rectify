@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trabalho 1</title>
+  <style>
+
+    html {
+      box-sizing: border-box;
+      height: 100%;
+    }
+
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .flex-center {
+      justify-content: center;
+      align-items: center;
+    }
+
+    .flex-1 {
+      flex: 1;
+    }
+
+    body {
+      height: 100%;
+      margin: 0;
+      background-color: #445;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .image-container {
+      position: relative;
+      margin: 10px;
+      border: 1px solid #ccd;
+    }
+
+    .image-container:not(:first-child) {
+      margin-left: 0;
+    }
+
+    .canvas-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    canvas {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .button {
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      background-color: #ccd;
+      color: #445;
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    .button:not(:hover) {
+      opacity: 0.7;
+    }
+
+    .button:active {
+      background-color: #bbc;
+    }
+
+    .button:last-child {
+      margin-left: auto;
+    }
+
+  </style>
+</head>
+<body class="flex">
+
+  <div class="image-container flex-1" id="input-container">
+    <div class="canvas-container flex flex-center">
+      <canvas id="input-image"></canvas>
+    </div>
+    <div class="toolbar flex">
+      <input type="file" accept="image/*" id="file-input" hidden>
+      <label for="file-input" class="button">Abrir…</label>
+      <button class="button" id="adjust-button" hidden>Ajustar</button>
+    </div>
+  </div>
+
+  <div class="image-container flex-1" id="output-container">
+    <div class="canvas-container flex flex-center">
+      <canvas id="output-image"></canvas>
+    </div>
+    <div class="toolbar flex">
+      <button class="button" id="save-button" hidden>Salvar</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
