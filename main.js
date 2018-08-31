@@ -1,34 +1,39 @@
-const fileInput = document.getElementById('file-input')
-const adjustButton = document.getElementById('adjust-button')
-const saveButton = document.getElementById('save-button')
+window.onload = () => {
+  const fileInput = document.getElementById('file-input')
+  const adjustButton = document.getElementById('adjust-button')
+  const saveButton = document.getElementById('save-button')
 
-fileInput.addEventListener('change', event => {
-  const imageFile = event.target.files[0]
-  loadInputImage(imageFile)
-})
+  const inputCanvas = new Canvas('input-image')
+  const outputCanvas = new Canvas('output-image')
 
-document.body.addEventListener('dragover', event => {
-  event.preventDefault()
-})
+  fileInput.addEventListener('change', event => {
+    const imageFile = event.target.files[0]
+    loadInputImage(imageFile)
+  })
 
-document.body.addEventListener('drop', event => {
-  event.preventDefault()
-  const imageFile = Array.prototype.filter.call(
-    event.dataTransfer.files,
-    file => /^image\//.test(file.type)
-  )[0]
-  event.dataTransfer.clearData()
-  loadInputImage(imageFile)
-})
+  document.body.addEventListener('dragover', event => {
+    event.preventDefault()
+  })
 
-async function loadInputImage(imageFile) {
-  inputCanvas.clear()
-  outputCanvas.clear()
-  adjustButton.hidden = true
-  saveButton.hidden = true
+  document.body.addEventListener('drop', event => {
+    event.preventDefault()
+    const imageFile = Array.prototype.filter.call(
+      event.dataTransfer.files,
+      file => /^image\//.test(file.type)
+    )[0]
+    event.dataTransfer.clearData()
+    loadInputImage(imageFile)
+  })
 
-  await inputCanvas.loadImage(imageFile)
-  adjustButton.hidden = false
+  async function loadInputImage(imageFile) {
+    inputCanvas.clear()
+    outputCanvas.clear()
+    adjustButton.hidden = true
+    saveButton.hidden = true
+
+    await inputCanvas.loadImage(imageFile)
+    adjustButton.hidden = false
+  }
 }
 
 class Canvas {
@@ -56,6 +61,3 @@ class Canvas {
     this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height)
   }
 }
-
-const inputCanvas = new Canvas('input-image')
-const outputCanvas = new Canvas('output-image')
