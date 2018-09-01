@@ -2,7 +2,7 @@ window.onload = () => {
   const fileInput = document.getElementById('file-input')
   let fileInfo = null
 
-  const adjustButton = document.getElementById('adjust-button')
+  const applyButton = document.getElementById('apply-button')
   const saveButton = document.getElementById('save-button')
 
   const inputImage = new ImageCanvas('canvas#input-image')
@@ -32,11 +32,11 @@ window.onload = () => {
 
     inputImage.clear()
     outputImage.clear()
-    adjustButton.hidden = true
+    applyButton.hidden = true
     saveButton.hidden = true
 
     await inputImage.loadImage(imageFile)
-    adjustButton.hidden = false
+    applyButton.hidden = false
   }
 
   saveButton.addEventListener('click', () => {
