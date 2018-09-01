@@ -121,14 +121,14 @@ class RegionSelector extends Canvas {
       return null
     }
 
-    this.canvas.addEventListener('mousemove', event => {
+    this.canvas.addEventListener('mousemove', throttle(event => {
       if (this.activeCorner === null) {
         this.hoverCorner = getCornerNearCoords(getMouseCoords(event))
       } else {
         this.corners[this.activeCorner] = getMouseCoords(event)
       }
       this.render()
-    })
+    }))
 
     this.canvas.addEventListener('mousedown', event => {
       if (this.hoverCorner !== null) {
@@ -183,4 +183,15 @@ class RegionSelector extends Canvas {
 
 function distance(x1, y1, x2, y2) {
   return Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2))
+}
+
+function throttle(eventHandler) {
+  let frame = null
+  return event => {
+    if (frame) return;
+    frame = requestAnimationFrame(() => {
+      eventHandler(event)
+      frame = null
+    })
+  }
 }
