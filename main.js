@@ -1,4 +1,6 @@
-const $ = selector => document.querySelector(selector)
+/**
+ * Inicialização
+ */
 
 window.onload = () => {
   const fileInput = $('#file-input')
@@ -61,6 +63,10 @@ window.onload = () => {
   })
 }
 
+/**
+ * Componentes
+ */
+
 class Canvas {
   constructor(canvasElement) {
     this.canvas = canvasElement
@@ -71,11 +77,10 @@ class Canvas {
 class ImageViewer extends Canvas {
   load(imageFile) {
     return new Promise(resolve => {
-      const url = URL.createObjectURL(imageFile)
       const image = new Image()
-      image.src = url
+      image.src = URL.createObjectURL(imageFile)
       image.onload = () => {
-        URL.revokeObjectURL(url)
+        URL.revokeObjectURL(image.src)
         this.canvas.width = image.width
         this.canvas.height = image.height
         this.ctx.drawImage(image, 0, 0)
@@ -103,9 +108,9 @@ class RegionSelector extends Canvas {
     ]
 
     const getCornerNearCoords = ([x, y]) => {
-      for (let i = 0, len = this.corners.length; i < len; i++) {
-        const [cornerX, cornerY] = this.corners[i]
-        if (distance(x, y, cornerX, cornerY) / this.scale < 12) return i
+      for (let index = 0, len = this.corners.length; index < len; index++) {
+        const [cornerX, cornerY] = this.corners[index]
+        if (distance(x, y, cornerX, cornerY) / this.scale < 12) return index
       }
       return null
     }
@@ -162,8 +167,8 @@ class RegionSelector extends Canvas {
     this.ctx.closePath()
     this.ctx.stroke()
 
-    this.corners.forEach(([x, y], i) => {
-      if (this.hoverCorner === i) {
+    this.corners.forEach(([x, y], index) => {
+      if (this.hoverCorner === index) {
         this.ctx.save()
         this.ctx.fillStyle = '#3af'
       }
@@ -172,12 +177,18 @@ class RegionSelector extends Canvas {
       this.ctx.arc(x, y, this.scale * 8, 0, 2 * Math.PI)
       this.ctx.fill()
 
-      if (this.hoverCorner === i) {
+      if (this.hoverCorner === index) {
         this.ctx.restore()
       }
     })
   }
 }
+
+/**
+ * Funções auxiliares
+ */
+
+const $ = selector => document.querySelector(selector)
 
 function addSuffix(fileName, suffix) {
   const parts = fileName.split('.')
