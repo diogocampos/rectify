@@ -173,10 +173,19 @@ class RegionSelector extends Canvas {
     this.ctx.closePath()
     this.ctx.stroke()
 
-    this.corners.forEach(([x, y]) => {
+    this.corners.forEach(([x, y], i) => {
+      if (this.hoverCorner === i) {
+        this.ctx.save()
+        this.ctx.fillStyle = '#3af'
+      }
+
       this.ctx.beginPath()
       this.ctx.arc(x, y, this.scale * 8, 0, 2 * Math.PI)
       this.ctx.fill()
+
+      if (this.hoverCorner === i) {
+        this.ctx.restore()
+      }
     })
   }
 }
