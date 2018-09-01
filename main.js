@@ -50,6 +50,7 @@ window.onload = () => {
 
   applyButton.addEventListener('click', () => {
     // TODO: Aplicar homografia planar à região selecionada
+    console.log(regionSelector.corners)
 
     saveButton.hidden = false
   })
@@ -100,6 +101,52 @@ class ImageViewer extends Canvas {
 }
 
 class RegionSelector extends Canvas {
+  constructor(canvasElement) {
+    super(canvasElement)
+
+    this.corners = [[-100, -100]]
+    this.hoverCorner = null
+    this.activeCorner = null
+
+    const getMouseCoords = event => [
+      this.scale * event.offsetX,
+      this.scale * event.offsetY
+    ]
+
+    const getCornerNearCoords = ([x, y]) => {
+      for (let i = 0, len = this.corners.length; i < len; i++) {
+        const [cornerX, cornerY] = this.corners[i]
+        if (distance(x, y, cornerX, cornerY) / this.scale < 12) return i
+      }
+      return null
+    }
+
+    this.canvas.addEventListener('mousemove', event => {
+      if (this.activeCorner === null) {
+        this.hoverCorner = getCornerNearCoords(getMouseCoords(event))
+      } else {
+        this.corners[this.activeCorner] = getMouseCoords(event)
+      }
+      this.render()
+    })
+
+    this.canvas.addEventListener('mousedown', event => {
+      if (this.hoverCorner !== null) {
+        this.activeCorner = this.hoverCorner
+      }
+    })
+
+    this.canvas.addEventListener('mouseup', () => {
+      this.activeCorner = null
+    })
+
+    this.canvas.addEventListener('mouseleave', () => {
+      this.hoverCorner = null
+      this.activeCorner = null
+      this.render()
+    })
+  }
+
   resize(width, height) {
     this.canvas.width = width
     this.canvas.height = height
@@ -114,8 +161,8 @@ class RegionSelector extends Canvas {
   }
 
   render() {
-    const scale = this.canvas.width / this.canvas.clientWidth
-    this.ctx.lineWidth = 5 * scale
+    this.scale = this.canvas.width / this.canvas.clientWidth
+    this.ctx.lineWidth = this.scale * 5
     this.ctx.strokeStyle = '#18f'
     this.ctx.fillStyle = '#18f'
 
@@ -128,8 +175,12 @@ class RegionSelector extends Canvas {
 
     this.corners.forEach(([x, y]) => {
       this.ctx.beginPath()
-      this.ctx.arc(x, y, 10 * scale, 0, 2 * Math.PI)
+      this.ctx.arc(x, y, this.scale * 8, 0, 2 * Math.PI)
       this.ctx.fill()
     })
   }
+}
+
+function distance(x1, y1, x2, y2) {
+  return Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2))
 }
