@@ -5,8 +5,8 @@ window.onload = () => {
   const adjustButton = document.getElementById('adjust-button')
   const saveButton = document.getElementById('save-button')
 
-  const inputCanvas = new Canvas('input-image')
-  const outputCanvas = new Canvas('output-image')
+  const inputImage = new ImageCanvas('canvas#input-image')
+  const outputImage = new ImageCanvas('canvas#output-image')
 
   fileInput.addEventListener('change', event => {
     const imageFile = event.target.files[0]
@@ -30,17 +30,17 @@ window.onload = () => {
   async function loadInputImage(imageFile) {
     fileInfo = { name: imageFile.name, type: imageFile.type }
 
-    inputCanvas.clear()
-    outputCanvas.clear()
+    inputImage.clear()
+    outputImage.clear()
     adjustButton.hidden = true
     saveButton.hidden = true
 
-    await inputCanvas.loadImage(imageFile)
+    await inputImage.loadImage(imageFile)
     adjustButton.hidden = false
   }
 
   saveButton.addEventListener('click', () => {
-    saveButton.href = outputCanvas.canvas.toDataURL(fileInfo.type)
+    saveButton.href = outputImage.canvas.toDataURL(fileInfo.type)
     saveButton.download = adjusted(fileInfo.name)
   })
 }
@@ -56,9 +56,9 @@ function adjusted(fileName) {
   }
 }
 
-class Canvas {
-  constructor(id) {
-    this.canvas = document.getElementById(id)
+class ImageCanvas {
+  constructor(selector) {
+    this.canvas = document.querySelector(selector)
     this.ctx = this.canvas.getContext('2d')
   }
 

@@ -35,13 +35,13 @@
       font-family: system-ui, -apple-system, sans-serif;
     }
 
-    .image-container {
+    .panel {
       position: relative;
       margin: 10px;
       border: 1px solid #ccd;
     }
 
-    .image-container:not(:first-child) {
+    .panel:not(:first-child) {
       margin-left: 0;
     }
 
@@ -52,7 +52,7 @@
       z-index: -1;
     }
 
-    canvas {
+    .canvas-container canvas {
       max-width: 100%;
       max-height: 100%;
     }
@@ -85,7 +85,7 @@
 </head>
 <body class="flex">
 
-  <div class="image-container flex-1" id="input-container">
+  <div class="panel flex-1" id="input-panel">
     <div class="canvas-container flex flex-center">
       <canvas id="input-image"></canvas>
     </div>
@@ -96,12 +96,12 @@
     </div>
   </div>
 
-  <div class="image-container flex-1" id="output-container">
+  <div class="panel flex-1" id="output-panel">
     <div class="canvas-container flex flex-center">
       <canvas id="output-image"></canvas>
     </div>
     <div class="toolbar flex">
-      <a href="#" class="button" id="save-button" hidden>Salvar</a>
+      <a class="button" id="save-button" hidden>Salvar</a>
     </div>
   </div>
 
