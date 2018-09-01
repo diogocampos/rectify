@@ -57,19 +57,8 @@ window.onload = () => {
 
   saveButton.addEventListener('click', () => {
     saveButton.href = outputImage.canvas.toDataURL(fileInfo.type)
-    saveButton.download = adjusted(fileInfo.name)
+    saveButton.download = addSuffix(fileInfo.name, 'retificada')
   })
-}
-
-function adjusted(fileName) {
-  const parts = fileName.split('.')
-  if (parts.length > 1) {
-    const name = parts.slice(0, -1).join('.')
-    const extension = parts[parts.length - 1]
-    return `${name}-ajustado.${extension}`
-  } else {
-    return `${fileName}-ajustado`
-  }
 }
 
 class Canvas {
@@ -187,6 +176,17 @@ class RegionSelector extends Canvas {
         this.ctx.restore()
       }
     })
+  }
+}
+
+function addSuffix(fileName, suffix) {
+  const parts = fileName.split('.')
+  if (parts.length > 1) {
+    const name = parts.slice(0, -1).join('.')
+    const extension = parts[parts.length - 1]
+    return `${name}-${suffix}.${extension}`
+  } else {
+    return `${fileName}-${suffix}`
   }
 }
 
