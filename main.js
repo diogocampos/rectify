@@ -37,6 +37,7 @@ window.onload = () => {
     outputImage.clear()
     applyButton.hidden = true
     saveButton.hidden = true
+    saveButton.href = ''
 
     await inputImage.load(imageFile)
     regionSelector.resize(inputImage.canvas.width, inputImage.canvas.height)
@@ -45,6 +46,12 @@ window.onload = () => {
 
   window.addEventListener('resize', () => {
     regionSelector.render()
+  })
+
+  applyButton.addEventListener('click', () => {
+    // TODO: Aplicar homografia planar à região selecionada
+
+    saveButton.hidden = false
   })
 
   saveButton.addEventListener('click', () => {
