@@ -45,8 +45,13 @@
     }
 
     .canvas-container canvas {
+      position: absolute;
       max-width: 100%;
       max-height: 100%;
+    }
+
+    #region-selector {
+      opacity: 0.6;
     }
 
     .toolbar {
@@ -84,6 +89,7 @@
   <div class="panel" id="input-panel">
     <div class="canvas-container">
       <canvas id="input-image"></canvas>
+      <canvas id="region-selector"></canvas>
     </div>
     <div class="toolbar">
       <input type="file" accept="image/*" id="file-input" hidden>

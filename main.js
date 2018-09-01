@@ -7,8 +7,9 @@ window.onload = () => {
   const applyButton = $('#apply-button')
   const saveButton = $('#save-button')
 
-  const inputImage = new ImageCanvas($('canvas#input-image'))
-  const outputImage = new ImageCanvas($('canvas#output-image'))
+  const inputImage = new ImageViewer($('canvas#input-image'))
+  const regionSelector = new RegionSelector($('canvas#region-selector'))
+  const outputImage = new ImageViewer($('canvas#output-image'))
 
   fileInput.addEventListener('change', event => {
     const imageFile = event.target.files[0]
@@ -37,9 +38,14 @@ window.onload = () => {
     applyButton.hidden = true
     saveButton.hidden = true
 
-    await inputImage.loadImage(imageFile)
+    await inputImage.load(imageFile)
+    regionSelector.resize(inputImage.canvas.width, inputImage.canvas.height)
     applyButton.hidden = false
   }
+
+  window.addEventListener('resize', () => {
+    regionSelector.render()
+  })
 
   saveButton.addEventListener('click', () => {
     saveButton.href = outputImage.canvas.toDataURL(fileInfo.type)
@@ -65,8 +71,8 @@ class Canvas {
   }
 }
 
-class ImageCanvas extends Canvas {
-  loadImage(imageFile) {
+class ImageViewer extends Canvas {
+  load(imageFile) {
     return new Promise(resolve => {
       const url = URL.createObjectURL(imageFile)
       const image = new Image()
@@ -83,5 +89,40 @@ class ImageCanvas extends Canvas {
 
   clear() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+  }
+}
+
+class RegionSelector extends Canvas {
+  resize(width, height) {
+    this.canvas.width = width
+    this.canvas.height = height
+
+    const left = 0.25 * width
+    const right = 0.75 * width
+    const top = 0.25 * height
+    const bottom = 0.75 * height
+    this.corners = [[left, top], [right, top], [right, bottom], [left, bottom]]
+
+    this.render()
+  }
+
+  render() {
+    const scale = this.canvas.width / this.canvas.clientWidth
+    this.ctx.lineWidth = 5 * scale
+    this.ctx.strokeStyle = '#18f'
+    this.ctx.fillStyle = '#18f'
+
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    this.ctx.beginPath()
+    this.ctx.moveTo(...this.corners[0])
+    this.corners.slice(1).forEach(corner => this.ctx.lineTo(...corner))
+    this.ctx.closePath()
+    this.ctx.stroke()
+
+    this.corners.forEach(([x, y]) => {
+      this.ctx.beginPath()
+      this.ctx.arc(x, y, 10 * scale, 0, 2 * Math.PI)
+      this.ctx.fill()
+    })
   }
 }
