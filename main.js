@@ -1,12 +1,14 @@
+const $ = selector => document.querySelector(selector)
+
 window.onload = () => {
-  const fileInput = document.getElementById('file-input')
+  const fileInput = $('#file-input')
   let fileInfo = null
 
-  const applyButton = document.getElementById('apply-button')
-  const saveButton = document.getElementById('save-button')
+  const applyButton = $('#apply-button')
+  const saveButton = $('#save-button')
 
-  const inputImage = new ImageCanvas('canvas#input-image')
-  const outputImage = new ImageCanvas('canvas#output-image')
+  const inputImage = new ImageCanvas($('canvas#input-image'))
+  const outputImage = new ImageCanvas($('canvas#output-image'))
 
   fileInput.addEventListener('change', event => {
     const imageFile = event.target.files[0]
@@ -56,12 +58,14 @@ function adjusted(fileName) {
   }
 }
 
-class ImageCanvas {
-  constructor(selector) {
-    this.canvas = document.querySelector(selector)
+class Canvas {
+  constructor(canvasElement) {
+    this.canvas = canvasElement
     this.ctx = this.canvas.getContext('2d')
   }
+}
 
+class ImageCanvas extends Canvas {
   loadImage(imageFile) {
     return new Promise(resolve => {
       const url = URL.createObjectURL(imageFile)
