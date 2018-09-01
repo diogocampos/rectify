@@ -15,27 +15,16 @@
       box-sizing: inherit;
     }
 
-    .flex {
-      display: flex;
-    }
-
-    .flex-center {
-      justify-content: center;
-      align-items: center;
-    }
-
-    .flex-1 {
-      flex: 1;
-    }
-
     body {
       height: 100%;
       margin: 0;
       background-color: #445;
       font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
     }
 
     .panel {
+      flex: 1;
       position: relative;
       margin: 10px;
       border: 1px solid #ccd;
@@ -46,15 +35,22 @@
     }
 
     .canvas-container {
+      z-index: -1;
       position: absolute;
       width: 100%;
       height: 100%;
-      z-index: -1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .canvas-container canvas {
       max-width: 100%;
       max-height: 100%;
+    }
+
+    .toolbar {
+      display: flex;
     }
 
     .button {
@@ -83,24 +79,24 @@
 
   </style>
 </head>
-<body class="flex">
+<body>
 
-  <div class="panel flex-1" id="input-panel">
-    <div class="canvas-container flex flex-center">
+  <div class="panel" id="input-panel">
+    <div class="canvas-container">
       <canvas id="input-image"></canvas>
     </div>
-    <div class="toolbar flex">
+    <div class="toolbar">
       <input type="file" accept="image/*" id="file-input" hidden>
       <label for="file-input" class="button">Abrir…</label>
       <button class="button" id="adjust-button" hidden>Ajustar</button>
     </div>
   </div>
 
-  <div class="panel flex-1" id="output-panel">
-    <div class="canvas-container flex flex-center">
+  <div class="panel" id="output-panel">
+    <div class="canvas-container">
       <canvas id="output-image"></canvas>
     </div>
-    <div class="toolbar flex">
+    <div class="toolbar">
       <a class="button" id="save-button" hidden>Salvar</a>
     </div>
   </div>
