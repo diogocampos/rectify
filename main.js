@@ -41,7 +41,7 @@ window.onload = () => {
     saveButton.hidden = true
     saveButton.href = ''
 
-    await inputImage.load(imageFile)
+    await inputImage.loadFile(imageFile)
     regionSelector.resize(inputImage.canvas.width, inputImage.canvas.height)
     applyButton.hidden = false
   }
@@ -50,10 +50,16 @@ window.onload = () => {
     regionSelector.render()
   })
 
-  applyButton.addEventListener('click', () => {
-    // TODO: Aplicar homografia planar à região selecionada
-    console.log(regionSelector.corners)
+  applyButton.addEventListener('click', async () => {
+    saveButton.hidden = true
+    outputImage.clear()
 
+    const rectifiedImageData = await rectifyImage(
+      inputImage.getImageData(),
+      regionSelector.corners
+    )
+
+    outputImage.loadImageData(rectifiedImageData)
     saveButton.hidden = false
   })
 
@@ -79,7 +85,7 @@ class Canvas {
 }
 
 class ImageViewer extends Canvas {
-  load(imageFile) {
+  loadFile(imageFile) {
     return new Promise(resolve => {
       const image = new Image()
       image.src = URL.createObjectURL(imageFile)
@@ -91,6 +97,16 @@ class ImageViewer extends Canvas {
         resolve()
       }
     })
+  }
+
+  getImageData() {
+    return this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height)
+  }
+
+  loadImageData(imageData) {
+    this.canvas.width = imageData.width
+    this.canvas.height = imageData.height
+    this.ctx.putImageData(imageData, 0, 0)
   }
 }
 
