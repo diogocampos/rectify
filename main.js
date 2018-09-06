@@ -72,6 +72,10 @@ class Canvas {
     this.canvas = canvasElement
     this.ctx = this.canvas.getContext('2d')
   }
+
+  clear() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+  }
 }
 
 class ImageViewer extends Canvas {
@@ -87,10 +91,6 @@ class ImageViewer extends Canvas {
         resolve()
       }
     })
-  }
-
-  clear() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
   }
 }
 
@@ -160,7 +160,7 @@ class RegionSelector extends Canvas {
     this.ctx.strokeStyle = '#18f'
     this.ctx.fillStyle = '#18f'
 
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    this.clear()
     this.ctx.beginPath()
     this.ctx.moveTo(...this.corners[0])
     this.corners.slice(1).forEach(corner => this.ctx.lineTo(...corner))
