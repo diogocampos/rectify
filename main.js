@@ -123,10 +123,10 @@ class RegionSelector extends Canvas {
       this.scale * event.offsetY
     ]
 
-    const getCornerNearCoords = ([x, y]) => {
+    const getCornerNearCoords = (coords) => {
       for (let index = 0, len = this.corners.length; index < len; index++) {
-        const [cornerX, cornerY] = this.corners[index]
-        if (distance(x, y, cornerX, cornerY) / this.scale < 12) return index
+        const corner = this.corners[index]
+        if (distance(coords, corner) / this.scale < 12) return index
       }
       return null
     }
@@ -215,10 +215,6 @@ function addSuffix(fileName, suffix) {
   } else {
     return `${fileName}-${suffix}`
   }
-}
-
-function distance(x1, y1, x2, y2) {
-  return Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2))
 }
 
 function throttle(eventHandler) {
