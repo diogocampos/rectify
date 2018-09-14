@@ -1,26 +1,23 @@
 const A4 = 210 / 297
 
 async function rectifyImage(imageData, corners, ratio = A4) {
-  const width = Math.max(
+  const maxWidth = Math.max(
     distance(corners[0], corners[1]),
     distance(corners[2], corners[3])
   )
-  const height = width / ratio
+  const width = Math.round(maxWidth)
+  const height = Math.round(maxWidth / ratio)
 
   const H = findHomography(corners, width, height)
-
-  //...
-  console.log(H)
-
-  return imageData
+  return applyHomography(imageData, H, width, height)
 }
 
 function distance([x1, y1], [x2, y2]) {
   return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2))
 }
 
-function findHomography(fromCorners, width, height) {
-  const toCorners = [[0, 0], [width, 0], [width, height], [0, height]]
+function findHomography(toCorners, width, height) {
+  const fromCorners = [[0, 0], [width, 0], [width, height], [0, height]]
   const system = []
   for (let i = 0; i < 4; i++) {
     const [x, y] = fromCorners[i]
@@ -35,6 +32,20 @@ function findHomography(fromCorners, width, height) {
     [solution[3], solution[4], solution[5]],
     [solution[6], solution[7], 1],
   ]
+}
+
+function applyHomography(imageData, H, width, height) {
+  const result = new ImageData(width, height)
+
+  for (let x = 0; x < width; x++) {
+    for (let y = 0; y < height; y++) {
+      //...
+      const i = (y * width + x) * 4
+      result.data[i + 3] = 255
+    }
+  }
+
+  return result
 }
 
 /**
