@@ -236,9 +236,7 @@ function throttle(eventHandler) {
   let frame = null
   return event => {
     if (frame) return;
-    frame = requestAnimationFrame(() => {
-      eventHandler(event)
-      frame = null
-    })
+    eventHandler(event)
+    frame = requestAnimationFrame(() => { frame = null })
   }
 }
