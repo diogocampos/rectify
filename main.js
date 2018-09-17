@@ -138,7 +138,7 @@ class RegionSelector extends Canvas {
       this.scale * event.offsetY
     ]
 
-    const getCornerNearCoords = (coords) => {
+    const getCornerNearCoords = coords => {
       for (let index = 0, len = this.corners.length; index < len; index++) {
         const corner = this.corners[index]
         if (distance(coords, corner) / this.scale < 12) return index
@@ -147,15 +147,15 @@ class RegionSelector extends Canvas {
     }
 
     this.canvas.addEventListener('mousemove', throttle(event => {
-      if (this.activeCorner === null) {
-        this.hoverCorner = getCornerNearCoords(getMouseCoords(event))
-      } else {
+      if (this.activeCorner !== null) {
         this.corners[this.activeCorner] = getMouseCoords(event)
+      } else {
+        this.hoverCorner = getCornerNearCoords(getMouseCoords(event))
       }
       this.render()
     }))
 
-    this.canvas.addEventListener('mousedown', event => {
+    this.canvas.addEventListener('mousedown', () => {
       if (this.hoverCorner !== null) {
         this.activeCorner = this.hoverCorner
       }
