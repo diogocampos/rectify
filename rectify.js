@@ -1,6 +1,6 @@
 const A4 = 210 / 297
 
-async function rectifyImage(imageData, corners, ratio = A4) {
+function rectifyImage(imageData, corners, ratio = A4) {
   const maxWidth = Math.max(
     distance(corners[0], corners[1]),
     distance(corners[2], corners[3])
@@ -30,22 +30,36 @@ function findHomography(toCorners, width, height) {
   return [
     [solution[0], solution[1], solution[2]],
     [solution[3], solution[4], solution[5]],
-    [solution[6], solution[7], 1],
+    [solution[6], solution[7],         1.0],
   ]
 }
 
-function applyHomography(imageData, H, width, height) {
+async function applyHomography(imageData, H, width, height) {
   const result = new ImageData(width, height)
-
-  for (let x = 0; x < width; x++) {
-    for (let y = 0; y < height; y++) {
-      //...
-      const i = (y * width + x) * 4
-      result.data[i + 3] = 255
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const [u, v] = transform(H, [x, y, 1.0])
+      setPixel(result, x, y, getInterpolatedPixel(imageData, u, v))
     }
   }
-
   return result
+}
+
+function getInterpolatedPixel(imageData, x, y) {
+  // TODO: usar uma técnica melhor de interpolação
+  return getPixel(imageData, Math.round(x), Math.round(y))
+}
+
+function getPixel(imageData, x, y) {
+  const i = (y * imageData.width + x) * 4
+  return imageData.data.slice(i, i + 4)
+}
+
+function setPixel(imageData, x, y, rgba) {
+  const i = (y * imageData.width + x) * 4
+  for (let j = 0; j < 4; j++) {
+    imageData.data[i + j] = rgba[j]
+  }
 }
 
 /**
@@ -72,6 +86,10 @@ function gaussJordan(system) {
   return system.map(row => row[row.length - 1])
 }
 
+/**
+ * Funções auxiliares
+ */
+
 function swapRows(matrix, i, j) {
   const temp = matrix[i]
   matrix[i] = matrix[j]
@@ -82,10 +100,27 @@ function divideRow(row, divisor) {
   for (let i = 0, len = row.length; i < len; i++) {
     row[i] /= divisor
   }
+  return row
 }
 
 function addRow(toRow, fromRow, scale) {
   for (let i = 0, len = toRow.length; i < len; i++) {
     toRow[i] += scale * fromRow[i]
   }
+}
+
+function transform(matrix, vector) {
+  const result = []
+  for (let i = 0, len = matrix.length; i < len; i++) {
+    result.push(dotProduct(matrix[i], vector))
+  }
+  return divideRow(result, result[result.length - 1])
+}
+
+function dotProduct(a, b) {
+  let result = 0
+  for (let i = 0, len = a.length; i < len; i++) {
+    result += a[i] * b[i]
+  }
+  return result
 }
