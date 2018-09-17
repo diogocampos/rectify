@@ -56,7 +56,8 @@ window.onload = () => {
 
     const rectifiedImageData = await rectifyImage(
       inputImage.getImageData(),
-      regionSelector.corners
+      regionSelector.corners,
+      { onProgress: progress => outputImage.renderProgress(progress) }
     )
 
     outputImage.loadImageData(rectifiedImageData)
@@ -110,6 +111,17 @@ class ImageViewer extends Canvas {
   loadImageData(imageData) {
     this.resize(imageData.width, imageData.height)
     this.ctx.putImageData(imageData, 0, 0)
+  }
+
+  renderProgress(progress) {
+    const width = 256, height = 16
+    this.resize(width, height)
+
+    this.ctx.strokeStyle = '#ccd'
+    this.ctx.fillStyle = '#ccd'
+    this.ctx.clearRect(0, 0, width, height)
+    this.ctx.strokeRect(0, 0, width, height)
+    this.ctx.fillRect(2, 2, progress * (width - 4), height - 4)
   }
 }
 
