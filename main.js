@@ -204,7 +204,9 @@ class RegionSelector extends Canvas {
  * Funções auxiliares
  */
 
-const $ = selector => document.querySelector(selector)
+function $(selector) {
+  return document.querySelector(selector)
+}
 
 function addSuffix(fileName, suffix) {
   const parts = fileName.split('.')

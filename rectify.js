@@ -1,3 +1,7 @@
+/**
+ * Retificação
+ */
+
 const A4 = 210 / 297
 
 function rectifyImage(imageData, corners, ratio = A4) {
@@ -65,18 +69,6 @@ function getInterpolatedPixel(imageData, x, y) {
   return pixel
 }
 
-function getPixel(imageData, x, y) {
-  const i = (y * imageData.width + x) * 4
-  return imageData.data.slice(i, i + 4)
-}
-
-function setPixel(imageData, x, y, rgba) {
-  const i = (y * imageData.width + x) * 4
-  for (let j = 0; j < 4; j++) {
-    imageData.data[i + j] = rgba[j]
-  }
-}
-
 /**
  * Eliminação de Gauss-Jordan
  */
@@ -89,6 +81,7 @@ function gaussJordan(system) {
     if (j > 0) swapRows(system, i, i + j)
 
     divideRow(system[i], system[i][i])
+
     for (let j = i + 1; j < len; ++j) {
       addRow(system[j], system[i], -system[j][i])
     }
@@ -117,7 +110,6 @@ function divideRow(row, divisor) {
   for (let i = 0, len = row.length; i < len; i++) {
     row[i] /= divisor
   }
-  return row
 }
 
 function addRow(toRow, fromRow, scale) {
@@ -131,7 +123,8 @@ function transform(matrix, vector) {
   for (let i = 0, len = matrix.length; i < len; i++) {
     result.push(dotProduct(matrix[i], vector))
   }
-  return divideRow(result, result[result.length - 1])
+  divideRow(result, result[result.length - 1])
+  return result
 }
 
 function dotProduct(a, b) {
@@ -140,4 +133,16 @@ function dotProduct(a, b) {
     result += a[i] * b[i]
   }
   return result
+}
+
+function getPixel(imageData, x, y) {
+  const i = (y * imageData.width + x) * 4
+  return imageData.data.slice(i, i + 4)
+}
+
+function setPixel(imageData, x, y, rgba) {
+  const i = (y * imageData.width + x) * 4
+  for (let j = 0; j < 4; j++) {
+    imageData.data[i + j] = rgba[j]
+  }
 }
