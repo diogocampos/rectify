@@ -175,10 +175,8 @@ class RegionSelector extends Canvas {
   resize(width, height) {
     super.resize(width, height)
 
-    const left = 0.25 * width
-    const right = 0.75 * width
-    const top = 0.25 * height
-    const bottom = 0.75 * height
+    const left = 0.2 * width, right = 0.8 * width
+    const top = 0.2 * height, bottom = 0.8 * height
     this.corners = [[left, top], [right, top], [right, bottom], [left, bottom]]
 
     this.render()
