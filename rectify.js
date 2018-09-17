@@ -4,7 +4,7 @@
 
 const A4 = 210 / 297
 
-function rectifyImage(imageData, corners, ratio = A4) {
+function rectifyImage(imageData, corners, { ratio = A4, onProgress } = {}) {
   const maxWidth = Math.max(
     distance(corners[0], corners[1]),
     distance(corners[2], corners[3])
@@ -13,7 +13,7 @@ function rectifyImage(imageData, corners, ratio = A4) {
   const height = Math.round(maxWidth / ratio)
 
   const H = findHomography(corners, width, height)
-  return applyHomography(imageData, H, width, height)
+  return applyHomography(imageData, H, width, height, onProgress)
 }
 
 function distance([x1, y1], [x2, y2]) {
@@ -38,14 +38,21 @@ function findHomography(toCorners, width, height) {
   ]
 }
 
-async function applyHomography(imageData, H, width, height) {
+async function applyHomography(imageData, H, width, height, onProgress) {
   const result = new ImageData(width, height)
+
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       const [u, v] = transform(H, [x, y, 1.0])
       setPixel(result, x, y, getInterpolatedPixel(imageData, u, v))
     }
+
+    if (y % 10 === 0) {
+      if (onProgress) onProgress((y + 1) / height)
+      await nextTick()
+    }
   }
+
   return result
 }
 
@@ -145,4 +152,8 @@ function setPixel(imageData, x, y, rgba) {
   for (let j = 0; j < 4; j++) {
     imageData.data[i + j] = rgba[j]
   }
+}
+
+function nextTick() {
+  return new Promise(resolve => setTimeout(resolve, 0))
 }
