@@ -94,6 +94,7 @@ class ImageViewer extends Canvas {
   loadFile(imageFile) {
     return new Promise(resolve => {
       const image = new Image()
+      image.crossOrigin = 'anonymous'
       image.src = URL.createObjectURL(imageFile)
       image.onload = () => {
         URL.revokeObjectURL(image.src)
