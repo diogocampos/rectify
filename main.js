@@ -79,6 +79,11 @@ class Canvas {
     this.ctx = this.canvas.getContext('2d')
   }
 
+  resize(width, height) {
+    this.canvas.width = width
+    this.canvas.height = height
+  }
+
   clear() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
   }
@@ -91,8 +96,7 @@ class ImageViewer extends Canvas {
       image.src = URL.createObjectURL(imageFile)
       image.onload = () => {
         URL.revokeObjectURL(image.src)
-        this.canvas.width = image.width
-        this.canvas.height = image.height
+        this.resize(image.width, image.height)
         this.ctx.drawImage(image, 0, 0)
         resolve()
       }
@@ -104,8 +108,7 @@ class ImageViewer extends Canvas {
   }
 
   loadImageData(imageData) {
-    this.canvas.width = imageData.width
-    this.canvas.height = imageData.height
+    this.resize(imageData.width, imageData.height)
     this.ctx.putImageData(imageData, 0, 0)
   }
 }
@@ -158,8 +161,7 @@ class RegionSelector extends Canvas {
   }
 
   resize(width, height) {
-    this.canvas.width = width
-    this.canvas.height = height
+    super.resize(width, height)
 
     const left = 0.25 * width
     const right = 0.75 * width
