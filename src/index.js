@@ -31,11 +31,10 @@ window.onload = () => {
 
   document.body.addEventListener('drop', event => {
     event.preventDefault()
-    const imageFile = Array.prototype.filter.call(
+    const imageFile = Array.prototype.find.call(
       event.dataTransfer.files,
       file => /^image\//.test(file.type)
-    )[0]
-    event.dataTransfer.clearData()
+    )
     loadInputImage(imageFile)
   })
 
