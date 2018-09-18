@@ -1,5 +1,5 @@
 {
-  "name": "fvc-t1",
+  "name": "rectify",
   "private": true,
   "scripts": {
     "build": "parcel build src/index.html",
