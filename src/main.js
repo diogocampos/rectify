@@ -1,3 +1,7 @@
+import 'babel-polyfill'
+
+import { distance, rectifyImage } from './rectify'
+
 /**
  * Inicialização
  */

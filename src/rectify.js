@@ -4,7 +4,11 @@
 
 const A4 = 210 / 297
 
-function rectifyImage(imageData, corners, { ratio = A4, onProgress } = {}) {
+export function rectifyImage(
+  imageData,
+  corners,
+  { ratio = A4, onProgress } = {}
+) {
   const maxWidth = Math.max(
     distance(corners[0], corners[1]),
     distance(corners[2], corners[3])
@@ -16,7 +20,7 @@ function rectifyImage(imageData, corners, { ratio = A4, onProgress } = {}) {
   return applyHomography(imageData, H, width, height, onProgress)
 }
 
-function distance([x1, y1], [x2, y2]) {
+export function distance([x1, y1], [x2, y2]) {
   return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2))
 }
 

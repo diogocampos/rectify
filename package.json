@@ -1,0 +1,11 @@
+{
+  "name": "fvc-t1",
+  "private": true,
+  "scripts": {
+    "build": "parcel build src/index.html",
+    "start": "parcel src/index.html"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.9.7"
+  }
+}
