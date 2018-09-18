@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "start": "parcel src/index.html --no-autoinstall --open",
-    "build": "rm -rf dist/* && parcel build src/index.html --public-url . --experimental-scope-hoisting"
+    "build": "rm -rf dist/* && parcel build src/index.html --public-url . --experimental-scope-hoisting",
+    "deploy": "scripts/deploy"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0"

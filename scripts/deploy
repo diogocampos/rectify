@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+BUILD_DIR='./dist'
+
+if [ ! -e "$BUILD_DIR"/.git ] ; then
+  git worktree add "$BUILD_DIR" gh-pages
+fi
+
+cd "$BUILD_DIR"
+git add .
+git commit -em 'Deploy to GitHub Pages'
+git push origin gh-pages
