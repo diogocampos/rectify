@@ -1,5 +1,5 @@
 import Canvas from './Canvas'
-import { distance, throttle } from '../util'
+import { distance, throttle } from '../lib/util'
 
 class RegionSelector extends Canvas {
   constructor(canvasElement) {
