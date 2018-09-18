@@ -1,5 +1,5 @@
 import Canvas from './Canvas'
-import { distance } from '../rectify'
+import { distance, throttle } from '../util'
 
 class RegionSelector extends Canvas {
   constructor(canvasElement) {
@@ -85,15 +85,6 @@ class RegionSelector extends Canvas {
         this.ctx.restore()
       }
     })
-  }
-}
-
-function throttle(eventHandler) {
-  let frame = null
-  return event => {
-    if (frame) return;
-    eventHandler(event)
-    frame = requestAnimationFrame(() => { frame = null })
   }
 }
 

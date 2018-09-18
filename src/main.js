@@ -3,6 +3,7 @@ import 'babel-polyfill'
 import ImageViewer from './controllers/ImageViewer'
 import RegionSelector from './controllers/RegionSelector'
 import { rectifyImage } from './rectify'
+import { $ } from './util'
 
 /**
  * Inicialização
@@ -74,14 +75,6 @@ window.onload = () => {
     saveButton.href = outputImage.canvas.toDataURL(fileInfo.type)
     saveButton.download = addSuffix(fileInfo.name, 'retificada')
   })
-}
-
-/**
- * Funções auxiliares
- */
-
-function $(selector) {
-  return document.querySelector(selector)
 }
 
 function addSuffix(fileName, suffix) {
