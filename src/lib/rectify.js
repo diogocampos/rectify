@@ -1,5 +1,6 @@
 import { distance, gaussJordan, transform } from './math'
 import { getInterpolatedPixel, setPixel } from './pixels'
+import { nextTick } from './util'
 
 /**
  * Retificação
@@ -57,8 +58,4 @@ async function applyHomography(imageData, H, width, height, onProgress) {
   }
 
   return result
-}
-
-function nextTick() {
-  return new Promise(resolve => setTimeout(resolve, 0))
 }

@@ -10,3 +10,7 @@ export function throttle(eventHandler) {
     frame = requestAnimationFrame(() => { frame = null })
   }
 }
+
+export function nextTick() {
+  return new Promise(resolve => setTimeout(resolve, 0))
+}
