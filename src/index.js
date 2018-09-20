@@ -42,7 +42,7 @@ window.onload = () => {
 
   async function loadInputImage(imageFile) {
     if (!isImageFile(imageFile)) {
-      return alert('O arquivo fornecido não é uma imagem.')
+      return alert('⚠️ O arquivo fornecido não é uma imagem.')
     }
     fileInfo = { name: imageFile.name, type: imageFile.type }
 
