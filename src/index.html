@@ -2,88 +2,9 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Retificação</title>
-  <style>
-
-    html {
-      box-sizing: border-box;
-      height: 100%;
-    }
-
-    *, *:before, *:after {
-      box-sizing: inherit;
-    }
-
-    body {
-      height: 100%;
-      margin: 0;
-      background-color: #445;
-      font-family: system-ui, -apple-system, sans-serif;
-      display: flex;
-    }
-
-    .panel {
-      flex: 1;
-      position: relative;
-      margin: 10px;
-      border: 1px solid #ccd;
-    }
-
-    .panel:not(:first-child) {
-      margin-left: 0;
-    }
-
-    .canvas-container {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .canvas-container canvas {
-      position: absolute;
-      max-width: 100%;
-      max-height: 100%;
-    }
-
-    #region-selector {
-      opacity: 0.7;
-    }
-
-    .toolbar {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .button {
-      z-index: 1;
-      margin: 10px;
-      box-shadow: 0px 1px 3px #445;
-      border: none;
-      border-radius: 5px;
-      padding: 10px;
-      background-color: #bbc;
-      color: #445;
-      font-family: inherit;
-      font-size: inherit;
-      text-decoration: none;
-    }
-
-    .button:not(:hover) {
-      opacity: 0.7;
-    }
-
-    .button:active {
-      background-color: #aab;
-    }
-
-  </style>
+  <link rel="stylesheet" href="./index.css">
 </head>
 
 <body>
