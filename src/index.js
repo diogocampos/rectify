@@ -10,19 +10,19 @@ import { $ } from './lib/util'
  */
 
 window.onload = () => {
-  const fileInput = $('#file-input')
+  const filePicker = $('#file-picker')
   let fileInfo = null
-
-  const applyButton = $('#apply-button')
-  const saveButton = $('#save-button')
 
   const inputImage = new ImageViewer($('canvas#input-image'))
   const regionSelector = new RegionSelector($('canvas#region-selector'))
+  const applyButton = $('#apply-button')
+
   const outputImage = new ImageViewer($('canvas#output-image'))
+  const saveButton = $('#save-button')
 
   // Carregamento da imagem de entrada
 
-  fileInput.addEventListener('change', event => {
+  filePicker.addEventListener('change', event => {
     const imageFile = event.target.files[0]
     loadInputImage(imageFile)
   })
