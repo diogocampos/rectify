@@ -20,6 +20,8 @@ window.onload = () => {
   const regionSelector = new RegionSelector($('canvas#region-selector'))
   const outputImage = new ImageViewer($('canvas#output-image'))
 
+  // Carregamento da imagem de entrada
+
   fileInput.addEventListener('change', event => {
     const imageFile = event.target.files[0]
     loadInputImage(imageFile)
@@ -52,9 +54,7 @@ window.onload = () => {
     applyButton.hidden = false
   }
 
-  window.addEventListener('resize', () => {
-    regionSelector.render()
-  })
+  // Botão "Retificar"
 
   applyButton.addEventListener('click', async () => {
     saveButton.hidden = true
@@ -70,11 +70,17 @@ window.onload = () => {
     saveButton.hidden = false
   })
 
+  // Botão "Salvar"
+
   saveButton.addEventListener('click', () => {
     saveButton.href = outputImage.canvas.toDataURL(fileInfo.type)
     saveButton.download = addSuffix(fileInfo.name, 'retificada')
   })
 }
+
+/**
+ * Funcões auxiliares
+ */
 
 function addSuffix(fileName, suffix) {
   const parts = fileName.split('.')

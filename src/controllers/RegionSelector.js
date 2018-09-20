@@ -47,6 +47,10 @@ class RegionSelector extends Canvas {
       this.activeCorner = null
       this.render()
     })
+
+    window.addEventListener('resize', () => {
+      this.render()
+    })
   }
 
   resize(width, height) {
