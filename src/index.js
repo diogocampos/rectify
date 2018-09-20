@@ -35,12 +35,15 @@ window.onload = () => {
     event.preventDefault()
     const imageFile = Array.prototype.find.call(
       event.dataTransfer.files,
-      file => /^image\//.test(file.type)
+      isImageFile
     )
     loadInputImage(imageFile)
   })
 
   async function loadInputImage(imageFile) {
+    if (!isImageFile(imageFile)) {
+      return alert('O arquivo fornecido não é uma imagem.')
+    }
     fileInfo = { name: imageFile.name, type: imageFile.type }
 
     inputImage.clear()
@@ -81,6 +84,10 @@ window.onload = () => {
 /**
  * Funcões auxiliares
  */
+
+function isImageFile(file) {
+  return file && /^image\//.test(file.type)
+}
 
 function addSuffix(fileName, suffix) {
   const parts = fileName.split('.')
