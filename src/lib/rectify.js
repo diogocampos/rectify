@@ -52,8 +52,8 @@ async function applyHomography(imageData, H, width, height, onProgress) {
     }
 
     for (let x = 0; x < width; x++) {
-      const [u, v] = transform(H, [x, y, 1.0])
-      setPixel(result, x, y, getInterpolatedPixel(imageData, u, v))
+      const [wu, wv, w] = transform(H, [x, y, 1.0])
+      setPixel(result, x, y, getInterpolatedPixel(imageData, wu / w, wv / w))
     }
   }
 

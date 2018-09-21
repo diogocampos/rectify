@@ -60,7 +60,6 @@ export function transform(matrix, vector) {
   for (let i = 0, len = matrix.length; i < len; i++) {
     result.push(dotProduct(matrix[i], vector))
   }
-  divideRow(result, result[result.length - 1])
   return result
 }
 
