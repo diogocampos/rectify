@@ -1,3 +1,5 @@
+![Captura de tela](screenshot.png)
+
 App para desfazer a distorção de perspectiva em fotografias de folhas de papel.
 
 ## Execução
