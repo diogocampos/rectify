@@ -1,5 +1,3 @@
-import '@babel/polyfill'
-
 import ImageViewer from './controllers/ImageViewer'
 import RegionSelector from './controllers/RegionSelector'
 import { rectifyImage } from './lib/rectify'
