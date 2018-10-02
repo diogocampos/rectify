@@ -7,7 +7,7 @@ import { $ } from './lib/util'
  * Inicialização
  */
 
-window.onload = () => {
+document.addEventListener('DOMContentLoaded', () => {
   const filePicker = $('#file-picker')
   let fileInfo = null
 
@@ -77,7 +77,7 @@ window.onload = () => {
     saveButton.href = outputImage.canvas.toDataURL(fileInfo.type)
     saveButton.download = addSuffix(fileInfo.name, 'retificada')
   })
-}
+})
 
 /**
  * Funcões auxiliares
