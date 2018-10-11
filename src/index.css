@@ -13,17 +13,15 @@ body {
   background-color: #445;
   font-family: system-ui, -apple-system, sans-serif;
   display: flex;
+  flex-direction: column;
 }
 
 .panel {
   flex: 1;
   position: relative;
+  height: 90%;
   margin: 10px;
   border: 1px solid #ccd;
-}
-
-.panel:not(:first-child) {
-  margin-left: 0;
 }
 
 .canvas-container {
@@ -73,4 +71,18 @@ body {
 
 .button:active {
   background-color: #aab;
+}
+
+@media (min-width: 768px) {
+  body {
+    flex-direction: row;
+  }
+
+  .panel {
+    height: unset;
+  }
+
+  .panel:not(:first-child) {
+    margin-left: 0;
+  }
 }
